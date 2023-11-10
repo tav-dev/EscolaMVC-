@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área do Professor</title>
+</head>
+<body>
+    <h3 style="text-align: center">Área do Professor</h3>
+    <div style="display: flex; justify-content: center">
+      <div style="display: flex; flex-direction: column; width: 200px">
+        <!-- <button id="clear" style="position: fixed;">Limpar</button> -->
+        <a
+        style="text-align: end"
+        id="aVoltar"
+        href="../../secretaria/secretaria.html"
+        >⟵</a
+        >
+        <h3>Disciplinas:</h3>
+        <select  id="selectDisciplina">
+            <option>Selecione uma Disciplina </option>
+        </select>
+
+        <br />
+        <div style="display: flex; flex-direction: column; width: 200px; ">
+            <h4>Turmas por Disciplina</h4>
+            
+        </div>
+    
+        <table>
+            <tbody id="turmas-disciplina"> </tbody>
+        </table>
+        <br>
+        <div style="display: flex; flex-direction: column; width: 200px; ">
+            <h4>Alunos por Turma</h4>
+        </div>
+        <table>
+            <tbody id="aluno-turma"> </tbody>
+        </table>
+        <div  >
+            <h4>Avaliação Aluno:</h4>
+            <select >
+                <option>Selecione uma Avaliacao</option>
+                <option>Prova</option>
+                <option>Teste</option>
+                <option>Trabalho</option>
+                <input type="number">
+            </select>
+        </div>
+        <br>
+        <button id="buttonSalvar">Salvar</button>
+        <label id="labelErro" style="color: red"></label>
+    </div>
+      
+    </div>
+    <script src="../professor/professor.js" type="module"></script>
+</body>
+</html>

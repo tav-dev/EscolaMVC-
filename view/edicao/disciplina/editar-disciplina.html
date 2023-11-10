@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurar Disciplina</title>
+</head>
+<body>
+    <h3 style="text-align: center">Configuração de Disciplina</h3>
+    <div style="display: flex; justify-content: center">
+      <div style="display: flex; flex-direction: column; width: 200px">
+        <button id="clear" style="position: fixed;">Limpar</button>
+        <a
+          style="text-align: end"
+          id="aVoltar"
+          href="../../secretaria/secretaria.html"
+          >⟵</a
+        >
+        <br />
+        <select id="selectDisciplina" >
+          <option default>Selecione uma Disciplina</option>
+        </select>
+        <br />
+        <input type="time" placeholder=" inicio " id="inicio" />
+        <br />
+        <input type="time" placeholder=" término " id="termino"/>
+        <br />
+        <div>
+          <input type="checkbox" name="segunda" id="segunda" /> segunda
+          <input type="checkbox" name="terça" id="terça" /> terça
+          <input type="checkbox" name="quarta" id="quarta" /> quarta
+          <input type="checkbox" name="quinta" id="quinta" /> quinta
+          <input type="checkbox" name="sexta" id="sexta" /> sexta
+        </div>
+        <br />
+        <div style="display: flex; flex-direction: column; width: 200px; ">
+          <h4>Professores:</h4>
+          <select id="selectProfessor" >
+            <option default>Selecione o Professor</option>
+          </select>
+        </div>
+        <br>
+    
+        <br />
+        <button id="buttonSalvar">salvar</button>
+        <label id="labelErro" style="color: red"></label>
+      </div>
+      
+    </div>
+  </body>
+<script type="module" src="../../edicao/disciplina/editar-disciplina.js"></script>
+</html>

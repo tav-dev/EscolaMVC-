@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Alunos por Turma</title>
+</head>
+<body>
+    <h3 style="text-align: center">Edição de Alunos por Turma</h3>
+    <div style="display: flex; justify-content: center">
+      <div style="display: flex; flex-direction: column; width: 200px">
+        <!-- <button id="clear" style="position: fixed;">Limpar</button> -->
+        <a
+        style="text-align: end"
+        id="aVoltar"
+        href="../../secretaria/secretaria.html"
+        >⟵</a
+        >
+        <br />
+        <select id="selectTurma" >
+            <option default>Selecione uma turma</option>
+        </select>
+        <br />
+        
+        <br />
+        <div style="display: flex; flex-direction: column; width: 200px; ">
+            <h4>Alunos:</h4>
+            <select id="selectAluno" >
+                <option default>Selecione o Aluno</option>
+            </select>
+        </div>
+    
+        <table>
+            <tbody id="render-aluno"> </tbody>
+        </table>
+        <button  id="btn-adicionar">Adicionar</button>
+        <br>
+        
+        <button id="buttonSalvar">salvar</button>
+        <label id="labelErro" style="color: red"></label>
+      </div>
+      
+    </div>
+    <script src="../../edicao/turma/editar-aluno-turma.js" type="module"></script>
+</body>
+</html>

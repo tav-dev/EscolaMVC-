@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configurar Turma</title>
+  </head>
+
+  <body>
+    <h3 style="text-align: center">Configuração de Turma</h3>
+    <div style="display: flex; justify-content: center">
+      <div style="display: flex; flex-direction: column; width: 200px">
+        <button id="clear" style="position: fixed;">Limpar</button>
+        <a
+          style="text-align: end"
+          id="aVoltar"
+          href="../../secretaria/secretaria.html"
+          >voltar</a
+        >
+        <br />
+        <select id="selectTurma" place>
+          <option default>Selecione uma Turma</option>
+        </select>
+        <br />
+        <input type="time" placeholder=" inicio " id="inicio" />
+        <br />
+        <input type="time" placeholder=" término " id="termino"/>
+        <br />
+        <div>
+          <input type="checkbox" name="segunda" id="segunda" /> segunda
+          <input type="checkbox" name="terça" id="terça" /> terça
+          <input type="checkbox" name="quarta" id="quarta" /> quarta
+          <input type="checkbox" name="quinta" id="quinta" /> quinta
+          <input type="checkbox" name="sexta" id="sexta" /> sexta
+        </div>
+        <br />
+        <div id="disciplinaDisplay" style="display: flex; flex-direction: column; width: 200px; display: none;">
+          <h4>Disciplinas:</h4>
+          <select id="selectDisciplina" >
+            <option>Selecione a Disciplina</option>
+          </select>
+          <button style="position: absolute; margin-left: 5px;" id="btn-adicionar">Adicionar</button>
+        </div>
+        <br>
+        <table>
+          <tbody  id="render-disciplina" ></tbody>
+        </table>
+        <br />
+        <button id="buttonSalvar">salvar</button>
+        <label id="labelErro" style="color: red"></label>
+      </div>
+      
+    </div>
+  </body>
+
+  <script src="../../edicao/turma/configura-turma.js" type="module"></script>
+</html>
