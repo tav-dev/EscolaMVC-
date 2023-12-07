@@ -11,7 +11,7 @@ export class Disciplina {
 
 
 export class Professor{
-    constructor(disciplina, turma, aluno, avaliacao, id) {
+    constructor(disciplina, turma, aluno, avaliacao) {
         this.disciplina = disciplina 
         this.turma = turma 
         this.aluno = aluno

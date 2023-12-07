@@ -40,6 +40,15 @@ import { UsuarioService } from "../model/service/usuario.service.js";
     }
   }
 
+logout() {
+  this.usuarioService.logout()
+  window.location.href = '../view/index.html'
+}
+
+pegarUserLogado() {
+    return this.usuarioService.userLogin
+}
+
   existe(nomeDeUsuario) {
     return this.usuarioService.buscar(nomeDeUsuario);
   }

@@ -17,19 +17,39 @@ export class DisciplinaService {
     }
   }
 
-  editarDisciplina (disciplinaEdit) {
+  editarDisciplina(disciplinaEdit) {
     const disciplinaEditada = this.disciplinas.find(
       (disciplina) => disciplina.id === disciplinaEdit.id
     );
     if (disciplinaEditada === undefined) {
-      throw new ConflictException(`Disciplina ${disciplinaEditada.nome} não existe`);
+      throw new ConflictException(
+        `Disciplina ${disciplinaEditada.nome} não existe`
+      );
     }
     this.disciplinas[disciplinaEditada] = disciplinaEdit;
     this._salvar();
   }
 
-  pegarDisciplinas() {
-    return this.disciplinas;
+  pegarDisciplinas(usuarioID) {
+
+    
+    let professorDisciplinaArr = [];
+
+
+    const disciplinaProfessor = this.disciplinas.filter(
+      (disciplina) => disciplina.professor
+    ); 
+    
+    for (let disciplina of disciplinaProfessor) {
+      console.log(disciplina);
+
+      if (disciplina.professor.id === usuarioID) {
+        professorDisciplinaArr.push(disciplina);
+      }
+    }
+    return professorDisciplinaArr; 
+
+    
   }
 
   cadastrar(disciplina) {

@@ -8,8 +8,12 @@
 </head>
 <body>
     <h3 style="text-align: center">Área do Professor</h3>
+    <div  style="text-align: center;" id="sectionUser">
+   
+        <button  id="logout">Logout</button>
+    </div>
     <div style="display: flex; justify-content: center">
-      <div style="display: flex; flex-direction: column; width: 200px">
+        <div style="display: flex; flex-direction: column; width: 200px">
         <!-- <button id="clear" style="position: fixed;">Limpar</button> -->
         <a
         style="text-align: end"
@@ -40,12 +44,9 @@
         </table>
         <div  >
             <h4>Avaliação Aluno:</h4>
-            <select >
+            <select id="tipoAvaliacao" >
                 <option>Selecione uma Avaliacao</option>
-                <option>Prova</option>
-                <option>Teste</option>
-                <option>Trabalho</option>
-                <input type="number">
+                <input id="nota" type="number">
             </select>
         </div>
         <br>

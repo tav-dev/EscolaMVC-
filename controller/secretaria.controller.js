@@ -1,4 +1,5 @@
 import { FriendlyException } from "../model/exception/exceptions.js";
+import { AvaliacaoService } from "../model/service/avaliacao.service.js";
 import { DisciplinaService } from "../model/service/disciplina.service.js";
 import { TurmaService } from "../model/service/turma.service.js";
 import { UsuarioService } from "../model/service/usuario.service.js";
@@ -8,6 +9,7 @@ export class SecretariaController {
     this.usuarioService = new UsuarioService();
     this.turmaService = new TurmaService();
     this.disciplinaService = new DisciplinaService();
+    this.avaliacaoService = new AvaliacaoService()
   }
 
   cadastrarDisciplinas(nomeDeDisciplina) {
@@ -47,14 +49,19 @@ export class SecretariaController {
   }
   
 
+
   pegarTurmas() {
     return this.turmaService.pegarTurmas();
   }
 
-  pegarDisciplinas() {
-    return this.disciplinaService.pegarDisciplinas();
+  pegarDisciplinas( usuarioID ) {
+    return this.disciplinaService.pegarDisciplinas(usuarioID);
   }
 
+
+  salvarAvaliacao( disciplinaID, alunoID,tipoDaAvaliacao, nota) {
+    this.avaliacaoService.salvarAvaliacao( disciplinaID, alunoID,tipoDaAvaliacao, nota )
+  }
   // configurarTurma(turma) {
   //   try {
   //       const turmas = this.secretariaService.buscarTurma(turma)

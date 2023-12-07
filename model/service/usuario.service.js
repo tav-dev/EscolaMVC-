@@ -8,21 +8,30 @@ import { StorageService } from "./storage.service.js";
 
 export class UsuarioService {
   usuariosKey = "usuarios";
+  userLoginKey = 'userSession'
+  userLogin 
 
   //TODO transformar em propriedades da classe
   constructor() {
     this.storageService = new StorageService();
     this.tipoDeUsuario = new TipoDeUsuario();
     this.usuarios = this.storageService.carregar(this.usuariosKey) ?? [];
+    this.userLogin = this.storageService.carregar(this.userLoginKey) ?? null
   }
-
+  
   login(nomeDeUsuario, senha) {
     const usuario = this.buscar(nomeDeUsuario);
-
+    
     if (senha !== usuario?.senha) {
       throw new InvalidCredentialsException();
     }
+    this.userLogin = usuario
+    this.storageService.salvar(this.userLoginKey, this.userLogin);
     return usuario;
+  }
+  
+  logout() {
+    this.userLogin = null
   }
 
   buscar(nomeDeUsuario, tipoDeUsuario) {
@@ -57,6 +66,7 @@ export class UsuarioService {
   _salvar() {
     try {
       this.storageService.salvar(this.usuariosKey, this.usuarios);
+      
     } catch (error) {
       throw new StorageServiceException(error.message);
     }

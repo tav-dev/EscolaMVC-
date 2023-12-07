@@ -1,35 +1,56 @@
 import { UsuarioController } from "../../../controller/usuario.controller.js";
 import { SecretariaController } from "../../../controller/secretaria.controller.js";
+import { sectionUser } from "../../section/sectionUser.js";
+import { TipoDeAvaliacao } from "../../../model/entity/avaliacao.js";
 
 const selectDisciplina = document.querySelector("#selectDisciplina");
 const turmaRadio = document.querySelector("#turmaRadio");
 const turmasRender = document.querySelector("#turmas-disciplina");
 const alunosRender = document.querySelector("#aluno-turma");
+const userLogin = document.querySelector('#sectionUser')
+const  btnSalvar  = document.querySelector('#buttonSalvar')
+const  btnLogout  = document.querySelector('#logout')
+const selectAvaliacao = document.querySelector('#tipoAvaliacao')
+const notaInput = document.querySelector('#nota')
+
 
 const secretariaController = new SecretariaController();
 const usuarioController = new UsuarioController();
-const disciplinas = secretariaController.pegarDisciplinas();
+const usuarioID = usuarioController.pegarUserLogado().id
+
+
+const disciplinas = secretariaController.pegarDisciplinas(usuarioID);
 const turmas = secretariaController.pegarTurmas();
+
+btnSalvar.addEventListener('click', salvarAvaliacao)
+btnLogout.addEventListener('click', logout)
 
 function carregarDisciplinas() {
   for (let disciplina of disciplinas) {
-
     const option = document.createElement("option");
     option.textContent = disciplina.nome;
     option.id = disciplina.id;
     option.value = disciplina.nome;
     selectDisciplina.appendChild(option);
-
   }
 }
+
 carregarDisciplinas();
 
 function disciplinaPorId() {
-  const optionSelecionada =
-    selectDisciplina.options[selectDisciplina.selectedIndex];
-  return disciplinas.find(
-    (disciplina) => disciplina.id === optionSelecionada.id
-  );
+  const optionSelecionada = selectDisciplina.options[selectDisciplina.selectedIndex];
+  return disciplinas.find((disciplina) => disciplina.id === optionSelecionada.id);
+}
+
+function avaliacaoSelecionada() {
+  const tipoDaAvaliacao = (Object.values(TipoDeAvaliacao))
+  ['P1', 'P2', 'P3', 'P4']
+
+ const optionSelecionada = selectAvaliacao.options[selectAvaliacao.selectedIndex].value
+ console.log(tipoDaAvaliacao)
+ return tipoDaAvaliacao.find((tipo)  => tipo  === optionSelecionada)
+
+
 }
 
 selectDisciplina.onchange = () => {
@@ -38,19 +59,21 @@ selectDisciplina.onchange = () => {
   const arrTurmaDiciplinaEscolhida = [];
 
   turmas.forEach((turma) => {
-    if ( turma.disciplinas.find((disciplina) => disciplina.id === disciplinaSelecionadaPorId.id)) {
+    if (
+      turma.disciplinas.find(
+        (disciplina) => disciplina.id === disciplinaSelecionadaPorId.id
+      )
+    ) {
       arrTurmaDiciplinaEscolhida.push(turma);
     }
   });
   atualizarInfoTurmasPorDisciplina(arrTurmaDiciplinaEscolhida);
-  atualizarAlunosPorTurma(arrTurmaDiciplinaEscolhida)
+  atualizarAlunosPorTurma(arrTurmaDiciplinaEscolhida);
 };
-
 
 function atualizarInfoTurmasPorDisciplina(arrTurmaDiciplinaEscolhida) {
   turmasRender.innerHTML = "";
   arrTurmaDiciplinaEscolhida.forEach((turma) => {
-
     const tr = document.createElement("tr");
     const td = document.createElement("td");
 
@@ -64,138 +87,84 @@ function atualizarInfoTurmasPorDisciplina(arrTurmaDiciplinaEscolhida) {
     inputRadio.value = turma.id;
     inputRadio.id = turma.id;
     inputRadio.onclick = () => {
-      atualizarAlunosPorTurma(arrTurmaDiciplinaEscolhida, turma.id)
-    }
+      atualizarAlunosPorTurma(arrTurmaDiciplinaEscolhida, turma.id);
+    };
 
     tr.appendChild(td);
     tr.appendChild(inputRadio);
     turmasRender.appendChild(tr);
-
   });
+
 }
 
-function atualizarAlunosPorTurma (arrTurmaDiciplinaEscolhida, turmaId) {
-  alunosRender.innerHTML = ""
-  const alunosDaTurma = arrTurmaDiciplinaEscolhida.find((turma) => turma.id === turmaId);
-  // console.log(alunosDaTurma.id)
+let alunoSelecionadoID;
 
-  if(alunosDaTurma) {
-    alunosDaTurma.alunos.forEach(aluno => {
-      // console.log(turmaId)
-      const tr = document.createElement('tr')
-      const td = document. createElement('td')
-  
-      td.textContent = aluno.nome
-      td.id = aluno.id
-  
+function atualizarAlunosPorTurma(arrTurmaDiciplinaEscolhida, turmaId) {
+  alunosRender.innerHTML = "";
+  const alunosDaTurma = arrTurmaDiciplinaEscolhida.find(
+    (turma) => turma.id === turmaId
+  );
+
+
+  if (alunosDaTurma) {
+    alunosDaTurma.alunos.forEach((aluno) => {
+
+      const tr = document.createElement("tr");
+      const td = document.createElement("td");
+
+      td.textContent = aluno.nome;
+      td.id = aluno.id;
+
       const inputRadio = document.createElement("input");
       inputRadio.type = "radio";
       inputRadio.setAttribute("name", "alunoRadio");
       inputRadio.textContent = aluno.nome;
       inputRadio.value = aluno.id;
       inputRadio.id = aluno.id;
-    
-      tr.appendChild(td)
-      tr.append(inputRadio)
-      alunosRender.appendChild(tr)
-    })
-  
+      inputRadio.addEventListener('click',function() {
+        alunoSelecionadoID = this.value;
+      })
+
+      tr.appendChild(td);
+      tr.append(inputRadio);
+      alunosRender.appendChild(tr);
+    });
   }
+}
+
+function mostrarTipoDeAvaliacao() {
+
+  const tipoDaAvaliacao = (Object.values( TipoDeAvaliacao))
+  // console.log(tipoDaAvaliacao)
+
+  for (const valor of tipoDaAvaliacao ) {
+    const option =  document.createElement('option')
+    option.value = valor
+    option.text = valor
+    selectAvaliacao.appendChild(option)
+  }
+  
+}
+mostrarTipoDeAvaliacao()
+
+function salvarAvaliacao() {
+  const disciplinaID = disciplinaPorId()
+  const optionAvaliacaoSelecionada = avaliacaoSelecionada()
+  console.log(optionAvaliacaoSelecionada)
+  const nota = notaInput.value
+  // console.log(disciplinaID.id)
+  const avaliacao = secretariaController.salvarAvaliacao(disciplinaID.id ,alunoSelecionadoID, optionAvaliacaoSelecionada,nota)
+}
+
+function logout (){
+  usuarioController.logout()
 
 }
 
+sectionUser(userLogin)
 
 
-
-// import { UsuarioController } from "../../../controller/usuario.controller.js";
-// import { SecretariaController } from "../../../controller/secretaria.controller.js";
-
-// const selecDisciplina = document.querySelector("#selecDisciplina");
-// const turmaRadio = document.querySelector("#turmaRadio");
-// const turmasRender = document.querySelector("#turmas-disciplina");
-// const alunoRender = document.querySelector("#aluno-turma");
-
-// const secretariaController = new SecretariaController();
-// const usuarioController = new UsuarioController();
-// const disciplinas = secretariaController.pegarDisciplinas();
-// const turmas = secretariaController.pegarTurmas();
-
-// selecDisciplina.onchange = () => {
-//   turmasPorDiciplinaSelecionada();
-// };
-
-// function carregarDisciplinas() {
-//   for (let disciplina of disciplinas) {
-//     const option = document.createElement("option");
-//     option.textContent = disciplina.nome;
-//     option.id = disciplina.id;
-//     option.value = disciplina.nome;
-//     selecDisciplina.appendChild(option);
-
-//   }
-// }
-// carregarDisciplinas();
-
-// function turmasPorDiciplinaSelecionada() {
-//   const optionSelecionada = selecDisciplina.options[selecDisciplina.selectedIndex];
-
-//   turmasRender.innerHTML = "";
-//   for (let turma of turmas) {
-//     const diciplinaPorTurma = turma.disciplinas;
-
-//     for (let disciplina of diciplinaPorTurma) {
-//       if (disciplina.id === optionSelecionada.id) {
-//         const tr = document.createElement("tr");
-//         const tdTurmas = document.createElement("td");
-
-//         tdTurmas.textContent = turma.nome;
-//         tdTurmas.id = turma.id;
-
-//         const inputRadio = document.createElement("input");
-//         inputRadio.type = "radio";
-//         inputRadio.setAttribute("name", "boolean");
-//         inputRadio.textContent = turma.nome;
-//         inputRadio.value = turma.nome;
-//         inputRadio.id = turma.id;
-//         inputRadio.onclick = () => {
-//           alunoPorTurmaSelecionada(turma.id);
-//         };
-
-//         tr.appendChild(tdTurmas);
-//         tr.appendChild(inputRadio);
-//         turmasRender.appendChild(tr);
-//       }
-//     }
-//   }
-// }
-
-// //   const radioId = radio.children.Boolean.id;
-// function alunoPorTurmaSelecionada(turmaId) {
-//   const alunosDaTurma = turmas.find((turma) => turma.id === turmaId).alunos;
-
-//   alunoRender.innerHTML = "";
-//   for (let aluno of alunosDaTurma) {
-//     if (alunosDaTurma) {
-//       const tr = document.createElement("tr");
-//       const tdAluno = document.createElement("td");
-
-//       tdAluno.textContent = aluno.nome;
-//       tdAluno.id = aluno.id;
-
-//       const inputRadio = document.createElement("input");
-//       inputRadio.type = "radio";
-//       inputRadio.setAttribute("name", "Boolean");
-//       inputRadio.textContent = aluno.nome;
-//       inputRadio.value = aluno.nome;
-//       inputRadio.id = aluno.id;
-
-//       tr.appendChild(tdAluno);
-//       tr.appendChild(inputRadio);
-//       alunoRender.appendChild(tr);
-//     }
-//   }
-// }
-
-// function salvarProfessorConfigurado() {
-
-// }
+// Corrigir Master
+// Corrigir Logout
+// Select de Avaliacao e Input nota ao trocar de Aluno/turma 
+// Area do Aluno
